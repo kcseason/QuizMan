@@ -55,7 +55,7 @@ namespace QuizManMainForm
 
             qt.AnswerList = answers;
 
-            var handler = new QuestionMongoHandler(true, "QuizMan", "QuestionList");
+            var handler = new QuestionMongoHandler(false, "QuizMan", "QuestionList");
             try
             {
                 await handler.InsertQuestionAsync(qt);
