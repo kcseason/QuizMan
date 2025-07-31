@@ -10,6 +10,23 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MongoDBHelper\MongoDBHelper.csproj" />
+    <ProjectReference Include="..\PDFHelper\PDFHelper.csproj" />
+    <ProjectReference Include="..\QuizManModel\QuizManModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="File\gratisexam.com-Scrum.practiceexam.PSM-II.v2020-03-25.by.rosie.93q.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="File\gratisexam.com-Scrum.realtests.PSM-I.v2020-07-24.by.thea.95q.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="File\gratisexam.com-Scrum.testking.PSM-I.v2021-04-27.by.emil.108q.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="File\Scrum-PSM-I_268.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

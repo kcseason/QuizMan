@@ -4,11 +4,11 @@ using QuizManModel;
 public class QuestionMongoHandler
 {
     private readonly IMongoCollection<Question> _questionsCollection;
+    private readonly string _connectionString = "mongodb+srv://admin:admin@cluster0.udbu4nw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
     public QuestionMongoHandler(bool isAtlas, string databaseName, string collectionName)
     {
-        var connectionString = isAtlas ? "mongodb+srv://admin:admin@cluster0.udbu4nw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-                                                                    : "mongodb://localhost:27017";
+        var connectionString = isAtlas ? _connectionString : "mongodb://localhost:27017";
         var client = new MongoClient(connectionString);
         var database = client.GetDatabase(databaseName);
         _questionsCollection = database.GetCollection<Question>(collectionName);

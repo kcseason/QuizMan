@@ -72,6 +72,7 @@
             label2 = new Label();
             tbTopic = new TextBox();
             label1 = new Label();
+            tsbLoadPDFQuestion = new ToolStripButton();
             toolStrip1.SuspendLayout();
             panel1.SuspendLayout();
             pnlOptions.SuspendLayout();
@@ -86,7 +87,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbAddQuestion });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbAddQuestion, tsbLoadPDFQuestion });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1578, 25);
@@ -154,6 +155,7 @@
             // 
             // textBox7
             // 
+            textBox7.Font = new Font("Microsoft YaHei UI", 14F);
             textBox7.Location = new Point(53, 4);
             textBox7.Multiline = true;
             textBox7.Name = "textBox7";
@@ -183,6 +185,7 @@
             // 
             // textBox6
             // 
+            textBox6.Font = new Font("Microsoft YaHei UI", 14F);
             textBox6.Location = new Point(53, 4);
             textBox6.Multiline = true;
             textBox6.Name = "textBox6";
@@ -212,6 +215,7 @@
             // 
             // textBox5
             // 
+            textBox5.Font = new Font("Microsoft YaHei UI", 14F);
             textBox5.Location = new Point(53, 4);
             textBox5.Multiline = true;
             textBox5.Name = "textBox5";
@@ -241,6 +245,7 @@
             // 
             // textBox4
             // 
+            textBox4.Font = new Font("Microsoft YaHei UI", 14F);
             textBox4.Location = new Point(53, 4);
             textBox4.Multiline = true;
             textBox4.Name = "textBox4";
@@ -270,6 +275,7 @@
             // 
             // textBox3
             // 
+            textBox3.Font = new Font("Microsoft YaHei UI", 14F);
             textBox3.Location = new Point(53, 4);
             textBox3.Multiline = true;
             textBox3.Name = "textBox3";
@@ -299,6 +305,7 @@
             // 
             // textBox2
             // 
+            textBox2.Font = new Font("Microsoft YaHei UI", 14F);
             textBox2.Location = new Point(53, 4);
             textBox2.Multiline = true;
             textBox2.Name = "textBox2";
@@ -328,6 +335,7 @@
             // 
             // textBox1
             // 
+            textBox1.Font = new Font("Microsoft YaHei UI", 14F);
             textBox1.Location = new Point(53, 4);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
@@ -501,6 +509,7 @@
             // 
             // tbTopic
             // 
+            tbTopic.Font = new Font("Microsoft YaHei UI", 14F);
             tbTopic.Location = new Point(31, 34);
             tbTopic.Multiline = true;
             tbTopic.Name = "tbTopic";
@@ -517,6 +526,15 @@
             label1.TabIndex = 0;
             label1.Text = "Question:";
             // 
+            // tsbLoadPDFQuestion
+            // 
+            tsbLoadPDFQuestion.Image = (Image)resources.GetObject("tsbLoadPDFQuestion.Image");
+            tsbLoadPDFQuestion.ImageTransparentColor = Color.Magenta;
+            tsbLoadPDFQuestion.Name = "tsbLoadPDFQuestion";
+            tsbLoadPDFQuestion.Size = new Size(88, 22);
+            tsbLoadPDFQuestion.Text = "Load Data";
+            tsbLoadPDFQuestion.Click += tsbLoadPDFQuestion_Click;
+            // 
             // QuizMan
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -525,6 +543,7 @@
             Controls.Add(panel1);
             Controls.Add(toolStrip1);
             Name = "QuizMan";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
@@ -594,5 +613,6 @@
         private Panel panel2;
         private TextBox textBox1;
         private CheckBox checkBox8;
+        private ToolStripButton tsbLoadPDFQuestion;
     }
 }

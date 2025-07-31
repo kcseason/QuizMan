@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Docnet.Core" Version="2.6.0" />
+    <PackageReference Include="IronPdf" Version="2025.7.17" />
+    <PackageReference Include="itext" Version="9.2.0" />
+    <PackageReference Include="PDFsharp" Version="6.2.1" />
+  </ItemGroup>
+
+</Project>

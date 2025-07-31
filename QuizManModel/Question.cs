@@ -1,6 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver;
 
 namespace QuizManModel
 {
@@ -33,6 +32,15 @@ namespace QuizManModel
 
         [BsonElement("Remark")]
         public string? Remark { get; set; }
+
+        [BsonElement("CreatedBy")]
+        public string? CreatedBy { get; set; }
+        [BsonElement("CreateTime")]
+        public DateTime? CreateTime { get; set; }
+        [BsonElement("UpdatedBy")]
+        public string? UpdatedBy { get; set; }
+        [BsonElement("UpdateTime")]
+        public DateTime? UpdateTime { get; set; }
     }
 
     public class Answer
@@ -41,5 +49,13 @@ namespace QuizManModel
         public string? AnswerString { get; set; }
         [BsonElement("RightOrWrong")]
         public RightOrWrong RightOrWrong { get; set; }
+        public Answer()
+        {
+        }
+        public Answer(string? _answerString, RightOrWrong _rightOrWrong = RightOrWrong.Wrong)
+        {
+            AnswerString = _answerString;
+            RightOrWrong = _rightOrWrong;
+        }
     }
 }
