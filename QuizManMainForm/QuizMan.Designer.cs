@@ -533,7 +533,7 @@
             tsbLoadPDFQuestion.Name = "tsbLoadPDFQuestion";
             tsbLoadPDFQuestion.Size = new Size(88, 22);
             tsbLoadPDFQuestion.Text = "Load Data";
-            tsbLoadPDFQuestion.Click += tsbLoadPDFQuestion_Click;
+            tsbLoadPDFQuestion.Click += TsbLoadPDFQuestion_Click;
             // 
             // QuizMan
             // 

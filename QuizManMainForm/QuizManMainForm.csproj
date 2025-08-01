@@ -24,7 +24,7 @@
     <None Update="File\gratisexam.com-Scrum.testking.PSM-I.v2021-04-27.by.emil.108q.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="File\Scrum-PSM-I_268.pdf">
+    <None Update="File\KaoShiBaoScrum-PSM-I_268.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

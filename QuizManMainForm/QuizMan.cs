@@ -118,61 +118,26 @@ namespace QuizManMainForm
             return string.IsNullOrEmpty(errorString);
         }
 
-        private async void tsbLoadPDFQuestion_Click(object sender, EventArgs e)
+        private void TsbLoadPDFQuestion_Click(object sender, EventArgs e)
         {
-            //var file1 = "Scrum-PSM-I_268.pdf";
-            var file1 = "gratisexam.com-Scrum.testking.PSM-I.v2021-04-27.by.emil.108q.pdf";
-            var file2 = "gratisexam.com-Scrum.realtests.PSM-I.v2020-07-24.by.thea.95q.pdf";
-            var file3 = "gratisexam.com-Scrum.practiceexam.PSM-II.v2020-03-25.by.rosie.93q.pdf";
-            var fileList = new List<string> { file1, file2, file3 };
-
-            foreach (var file in fileList)
+            var folderPath = Directory.GetCurrentDirectory() + "\\File\\";
+            var searchPattern = "*.pdf";
+            var dirInfo = new DirectoryInfo(folderPath);
+            foreach (var file in dirInfo.GetFiles(searchPattern))
             {
-                LoadPDFQuestion(file);
+                LoadPDFQuestion(file.FullName);
             }
             MessageBox.Show("Questions loaded successfully!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private async void LoadPDFQuestion(string fileName)
+        private async void LoadPDFQuestion(string pdfPath)
         {
-            var pdfPath = Path.Combine(Directory.GetCurrentDirectory() + "\\File\\", fileName);
             var content = PDFHelper.iText.ReadPDF(pdfPath);
-            content = content.Replace("https://www.gratisexam.com/", string.Empty);
-
             // Regex pattern to match blank lines (including lines with only whitespace)
             var pattern = @"^[\s]*$[\r\n]*";
             // Replace blank lines with an empty string
             var newContent = Regex.Replace(content, pattern, string.Empty, RegexOptions.Multiline);
-
-            var qts = Regex.Split(newContent, @"QUESTION \d{1,3}");
-            var newQts = new List<Question>();
-            foreach (var qt in qts)
-            {
-                var qtContent = qt.Trim();
-                if (!qtContent.Contains("Explanation"))
-                    continue;
-
-                var newQt = new Question();
-                var regexTopic = ".*?(\\?|\\.)(?=[\\r\\n]A)";
-                newQt.Topic = Regex.Match(qtContent, regexTopic).Value.ToString();
-
-                newQt.AnswerList = [];
-                var regexCorrect = "(?<=Correct Answer: )[A-Z](?=[\r\n])";
-                var correctAnswer = Regex.Match(qtContent, regexCorrect).Value.ToString();
-
-                var regexAnswers = "(?<=[\\r\\n])[A-Z]\\..*?(?=[\\r\\n])";
-                var matches = Regex.Matches(qtContent, regexAnswers);
-                foreach (var match in matches)
-                {
-                    var answerText = Regex.Replace(match.ToString().Trim(), "[A-Z]. ", string.Empty);
-                    var correct = match.ToString().Contains(correctAnswer + ". ") ? RightOrWrong.Right : RightOrWrong.Wrong;
-                    newQt.AnswerList.Add(new Answer(answerText, correct));
-                }
-
-                newQt.CreatedBy = "System";
-                newQt.CreateTime = DateTime.Now;
-                newQts.Add(newQt);
-            }
+            var newQts = GetQuestionListByPDF(newContent, pdfPath);
 
             var handler = new QuestionMongoHandler(false, "QuizMan", "QuestionList");
             try
@@ -187,5 +152,100 @@ namespace QuizManMainForm
                 MessageBox.Show($"Error saving question: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private List<Question> GetQuestionListByPDF(string content, string pdfPath)
+        {
+            if (pdfPath.Contains("gratisexam.com"))
+                return GetQuestionsByGratiseExcam(content);
+            if (pdfPath.Contains("KaoShiBao"))
+                return GetQuestionsByKaoShiBao(content);
+
+            return [];
+        }
+
+        private List<Question> GetQuestionsByKaoShiBao(string content)
+        {
+            var replaceStr = @"\d{0,3} of \d{1,3}[\r\n]|Scrum - PSM-I[\r\n]|µÍ∆Ã£∫—ßœ∞–°µÍ66[\r\n]";
+            var newContent = Regex.Replace(content, replaceStr, string.Empty);
+            var pattern = @"^[\s]*$[\r\n]*";
+            newContent = Regex.Replace(newContent, pattern, string.Empty, RegexOptions.Multiline);
+            var qts = Regex.Split(newContent, @"Question #:\d{1,3}");
+            var newQts = new List<Question>();
+            var i = 0;
+            foreach (var qt in qts)
+            {
+                i++;
+                var qtContent = qt.Trim();
+                if (!qtContent.Contains("Answer:"))
+                    continue;
+
+                var newQt = new Question();
+                var regexTopic = @"[\s\S]*?(\?|\.|\)|:)(?=[\r\n]A\.)";
+                var topic = Regex.Match(qtContent, regexTopic).Value.ToString();
+                newQt.Topic = Regex.Replace(topic, replaceStr, string.Empty);
+
+                newQt.AnswerList = [];
+                var regexCorrect = @"(?<=Answer: )[A-Z](?=[\r\n])";
+                var correctAnswer = Regex.Match(qtContent, regexCorrect).Value.ToString();
+
+                var regexAnswers = @"(?<=[\r\n])[A-Z]\..*?(?=[\r\n])";
+                var matches = Regex.Matches(qtContent, regexAnswers);
+                foreach (var match in matches)
+                {
+                    var answerText = Regex.Replace(match.ToString().Trim(), "[A-Z].  ", string.Empty);
+                    var correct = match.ToString().Contains(correctAnswer + ".  ") ? RightOrWrong.Right : RightOrWrong.Wrong;
+                    newQt.AnswerList.Add(new Answer(answerText, correct));
+                }
+
+                var regexExplanation = @"(?<=Explanation[\r\n])[\s\S]*";
+                var exp = Regex.Match(qtContent, regexExplanation).Value.ToString();
+                newQt.Explanation = Regex.Replace(exp, replaceStr, string.Empty);
+
+                newQt.ShortName = "PSM-I";
+                newQt.FullName = "Prefessianl Scrum Master I";
+                newQt.CreatedBy = "System";
+                newQt.CreateTime = DateTime.Now;
+                newQts.Add(newQt);
+            }
+            return newQts;
+        }
+
+        private List<Question> GetQuestionsByGratiseExcam(string content)
+        {
+            content = content.Replace("https://www.gratisexam.com/", string.Empty).Replace("885CB989129A5F974833949052CFB2F2", string.Empty);
+            var qts = Regex.Split(content, @"QUESTION \d{1,3}");
+            var newQts = new List<Question>();
+
+            foreach (var qt in qts)
+            {
+                var qtContent = qt.Trim();
+                if (!qtContent.Contains("Explanation"))
+                    continue;
+
+                var newQt = new Question();
+                var regexTopic = @"[\s\S]*?(\?|\.|:)(?=[\s\S]*A. )";
+                newQt.Topic = Regex.Match(qtContent, regexTopic).Value.ToString();
+
+                newQt.AnswerList = [];
+                var regexCorrect = @"(?<=Correct Answer: )[A-Z](?=[\r\n])";
+                var correctAnswer = Regex.Match(qtContent, regexCorrect).Value.ToString();
+
+                var regexAnswers = @"(?<=[\r\n])[A-Z]\..*?(?=[\r\n])";
+                var matches = Regex.Matches(qtContent, regexAnswers);
+                foreach (var match in matches)
+                {
+                    var answerText = Regex.Replace(match.ToString().Trim(), "[A-Z]. ", string.Empty);
+                    var correct = match.ToString().Contains(correctAnswer + ". ") ? RightOrWrong.Right : RightOrWrong.Wrong;
+                    newQt.AnswerList.Add(new Answer(answerText, correct));
+                }
+                newQt.ShortName = "PSM-I";
+                newQt.FullName = "Prefessianl Scrum Master I";
+                newQt.CreatedBy = "System";
+                newQt.CreateTime = DateTime.Now;
+                newQts.Add(newQt);
+            }
+            return newQts;
+        }
+
     }
 }
