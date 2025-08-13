@@ -8,13 +8,13 @@ namespace PDFHelper
 {
     public class iText
     {
-        public static string ReadPDF(string pdfFilePath) 
+        public static string ReadPDF(string pdfFilePath)
         {
             // Initialize a PdfReader instance
-            var pdfReader = new PdfReader(pdfFilePath);
+            using var pdfReader = new PdfReader(pdfFilePath);
 
             // Initialize a PdfDocument instance using the PdfReader
-            var pdfDoc = new PdfDocument(pdfReader);
+            using var pdfDoc = new PdfDocument(pdfReader);
 
             var extractedText = new StringBuilder();
 

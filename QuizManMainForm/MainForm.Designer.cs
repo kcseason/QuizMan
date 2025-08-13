@@ -1,6 +1,6 @@
 ﻿namespace QuizManMainForm
 {
-    partial class QuizMan
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QuizMan));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             toolStrip1 = new ToolStrip();
             tsbAddQuestion = new ToolStripButton();
+            tsbLoadPDFQuestion = new ToolStripButton();
             panel1 = new Panel();
             pnlOptions = new Panel();
             panel8 = new Panel();
@@ -72,7 +73,7 @@
             label2 = new Label();
             tbTopic = new TextBox();
             label1 = new Label();
-            tsbLoadPDFQuestion = new ToolStripButton();
+            tsbStart = new ToolStripButton();
             toolStrip1.SuspendLayout();
             panel1.SuspendLayout();
             pnlOptions.SuspendLayout();
@@ -87,7 +88,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbAddQuestion, tsbLoadPDFQuestion });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { tsbAddQuestion, tsbLoadPDFQuestion, tsbStart });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1578, 25);
@@ -101,6 +102,15 @@
             tsbAddQuestion.Name = "tsbAddQuestion";
             tsbAddQuestion.Size = new Size(108, 22);
             tsbAddQuestion.Text = "Add Question";
+            // 
+            // tsbLoadPDFQuestion
+            // 
+            tsbLoadPDFQuestion.Image = (Image)resources.GetObject("tsbLoadPDFQuestion.Image");
+            tsbLoadPDFQuestion.ImageTransparentColor = Color.Magenta;
+            tsbLoadPDFQuestion.Name = "tsbLoadPDFQuestion";
+            tsbLoadPDFQuestion.Size = new Size(88, 22);
+            tsbLoadPDFQuestion.Text = "Load Data";
+            tsbLoadPDFQuestion.Click += TsbLoadPDFQuestion_Click;
             // 
             // panel1
             // 
@@ -526,14 +536,14 @@
             label1.TabIndex = 0;
             label1.Text = "Question:";
             // 
-            // tsbLoadPDFQuestion
+            // tsbStart
             // 
-            tsbLoadPDFQuestion.Image = (Image)resources.GetObject("tsbLoadPDFQuestion.Image");
-            tsbLoadPDFQuestion.ImageTransparentColor = Color.Magenta;
-            tsbLoadPDFQuestion.Name = "tsbLoadPDFQuestion";
-            tsbLoadPDFQuestion.Size = new Size(88, 22);
-            tsbLoadPDFQuestion.Text = "Load Data";
-            tsbLoadPDFQuestion.Click += TsbLoadPDFQuestion_Click;
+            tsbStart.Image = (Image)resources.GetObject("tsbStart.Image");
+            tsbStart.ImageTransparentColor = Color.Magenta;
+            tsbStart.Name = "tsbStart";
+            tsbStart.Size = new Size(55, 22);
+            tsbStart.Text = "Start";
+            tsbStart.Click += TsbStart_Click;
             // 
             // QuizMan
             // 
@@ -614,5 +624,6 @@
         private TextBox textBox1;
         private CheckBox checkBox8;
         private ToolStripButton tsbLoadPDFQuestion;
+        private ToolStripButton tsbStart;
     }
 }
