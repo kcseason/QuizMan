@@ -97,7 +97,7 @@ namespace MLNetSample
             // 保存模型
             var modelPath = "sentiment_model.zip";
             mlContext.Model.Save(model, trainData.Schema, modelPath);
-            Console.WriteLine($"Model saved to {modelPath}");
+            Console.WriteLine($"Model saved to {modelPath}"); 
         }
 
         // 简单分层拆分实现：按 Label 分组，再按比例抽取测试集
